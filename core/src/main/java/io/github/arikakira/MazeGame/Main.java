@@ -30,6 +30,8 @@ public class Main extends ApplicationAdapter {
 
     Vector2 touchPos;
 
+    Maze game = new Maze(1, 6);
+
     @Override
     public void create() {
         spriteBatch = new SpriteBatch();
@@ -68,7 +70,7 @@ public class Main extends ApplicationAdapter {
         // batch.end();
 
         // System.out.println(rArrowSprite.getX() + " " + rArrowSprite.getY());
-        System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+        // System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
         // System.out.println(dArrowSprite.getX() + dArrowSprite.getWidth() + " " + uArrowSprite.getX() + " " + uArrowSprite.getY() + uArrowSprite.getHeight() + " " + uArrowSprite.getY());
     }
 
@@ -79,6 +81,7 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getY() > rArrowSprite.getY()) {
             if(Gdx.input.isTouched()) {
                 System.out.println("Right arrow pressed");
+                game.getMaze();
                 wait(200);
             }
         }
