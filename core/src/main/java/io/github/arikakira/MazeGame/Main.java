@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import java.lang.Thread;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -36,16 +37,16 @@ public class Main extends ApplicationAdapter {
         // lArrowTexture = new Texture("leftArrow.png");
         // uArrowTexture = new Texture("upArrow.png");
         // dArrowTexture = new Texture("downArrow.png");
-        viewport = new FitViewport(9, 7);
+        viewport = new FitViewport(1000, 800);
 
         rArrowSprite = new Sprite(arrowTexture);
-        rArrowSprite.setSize(2, 1);
+        rArrowSprite.setSize(200, 100);
         lArrowSprite = new Sprite(arrowTexture);
-        lArrowSprite.setSize(2, 1);
+        lArrowSprite.setSize(200, 100);
         uArrowSprite = new Sprite(arrowTexture);
-        uArrowSprite.setSize(2, 1);
+        uArrowSprite.setSize(200, 100);
         dArrowSprite = new Sprite(arrowTexture);
-        dArrowSprite.setSize(2, 1);
+        dArrowSprite.setSize(200, 100);
 
         touchPos = new Vector2();
     }
@@ -65,11 +66,51 @@ public class Main extends ApplicationAdapter {
         // batch.begin();
         // batch.draw(image, 200, 210);    // this moves the image
         // batch.end();
+
+        // System.out.println(rArrowSprite.getX() + " " + rArrowSprite.getY());
+        System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+        // System.out.println(dArrowSprite.getX() + dArrowSprite.getWidth() + " " + uArrowSprite.getX() + " " + uArrowSprite.getY() + uArrowSprite.getHeight() + " " + uArrowSprite.getY());
     }
 
     public void input() {
-        if(Gdx.input.isTouched()) {
-            // does something when user cicks the screen
+        if(Gdx.input.getX() < rArrowSprite.getX() + rArrowSprite.getWidth() &&
+           Gdx.input.getX() > rArrowSprite.getX() &&
+           Gdx.input.getY() < rArrowSprite.getY() + rArrowSprite.getHeight() &&
+           Gdx.input.getY() > rArrowSprite.getY()) {
+            if(Gdx.input.isTouched()) {
+                System.out.println("Right arrow pressed");
+                wait(200);
+            }
+        }
+
+        if(Gdx.input.getX() < lArrowSprite.getX() + lArrowSprite.getWidth() &&
+           Gdx.input.getX() > lArrowSprite.getX() &&
+           Gdx.input.getY() < lArrowSprite.getY() + lArrowSprite.getHeight() &&
+           Gdx.input.getY() > lArrowSprite.getY()) {
+            if(Gdx.input.isTouched()) {
+                System.out.println("Left arrow pressed");
+                wait(200);
+            }
+        }
+
+        if(Gdx.input.getX() < uArrowSprite.getX() + uArrowSprite.getWidth() - 50 &&
+           Gdx.input.getX() > uArrowSprite.getX() + 50 &&
+           700-Gdx.input.getY() < uArrowSprite.getY() + uArrowSprite.getHeight() &&
+           850-Gdx.input.getY() > uArrowSprite.getY()) {
+            if(Gdx.input.isTouched()) {
+                System.out.println("Up arrow pressed");
+                wait(200);
+            }
+        }
+
+        if(Gdx.input.getX() < dArrowSprite.getX() + dArrowSprite.getWidth() - 50 &&
+           Gdx.input.getX() > dArrowSprite.getX() + 50 &&
+           750-Gdx.input.getY() < dArrowSprite.getY() + dArrowSprite.getHeight() &&
+           850-Gdx.input.getY() > dArrowSprite.getY()) {
+            if(Gdx.input.isTouched()) {
+                System.out.println("Down arrow pressed");
+                wait(200);
+            }
         }
     }
 
@@ -85,22 +126,22 @@ public class Main extends ApplicationAdapter {
 
         //spriteBatch.draw(rArrowTexture, 7,3,2,1);
         rArrowSprite.draw(spriteBatch);
-        rArrowSprite.setPosition(7, 3);
+        rArrowSprite.setPosition(800, 350);
         // spriteBatch.draw(lArrowTexture, 0,3,2,1);
         lArrowSprite.draw(spriteBatch);
         lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
         lArrowSprite.setRotation(180);
-        lArrowSprite.setPosition(0, 3);
+        lArrowSprite.setPosition(0, 350);
         //spriteBatch.draw(uArrowTexture, 4,5,1,2);
         uArrowSprite.draw(spriteBatch);
         uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
         uArrowSprite.setRotation(90);
-        uArrowSprite.setPosition((float) 3.5, (float) 5.5);
+        uArrowSprite.setPosition( 400, 650);
         // spriteBatch.draw(dArrowTexture, 4,0,1,2);
         dArrowSprite.draw(spriteBatch);
         dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
         dArrowSprite.setRotation(270);
-        dArrowSprite.setPosition((float) 3.5, (float) 0.5);
+        dArrowSprite.setPosition(400, 50);
 
         spriteBatch.end();
     }
@@ -109,5 +150,13 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         spriteBatch.dispose();
         arrowTexture.dispose();
+    }
+
+    public static void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
