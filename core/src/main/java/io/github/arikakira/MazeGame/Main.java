@@ -79,8 +79,10 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getX() > rArrowSprite.getX() &&
            Gdx.input.getY() < rArrowSprite.getY() + rArrowSprite.getHeight() &&
            Gdx.input.getY() > rArrowSprite.getY()) {
-            if(Gdx.input.isTouched()) {
+            if(Gdx.input.isTouched() && game.rightAvail()) {
                 System.out.println("Right arrow pressed");
+                game.getMaze();
+                game.move("right");
                 game.getMaze();
                 wait(200);
             }
@@ -90,8 +92,11 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getX() > lArrowSprite.getX() &&
            Gdx.input.getY() < lArrowSprite.getY() + lArrowSprite.getHeight() &&
            Gdx.input.getY() > lArrowSprite.getY()) {
-            if(Gdx.input.isTouched()) {
+            if(Gdx.input.isTouched() && game.leftAvail()) {
                 System.out.println("Left arrow pressed");
+                game.getMaze();
+                game.move("left");
+                game.getMaze();
                 wait(200);
             }
         }
@@ -100,8 +105,11 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getX() > uArrowSprite.getX() + 50 &&
            700-Gdx.input.getY() < uArrowSprite.getY() + uArrowSprite.getHeight() &&
            850-Gdx.input.getY() > uArrowSprite.getY()) {
-            if(Gdx.input.isTouched()) {
+            if(Gdx.input.isTouched() && game.upAvail()) {
                 System.out.println("Up arrow pressed");
+                game.getMaze();
+                game.move("up");
+                game.getMaze();
                 wait(200);
             }
         }
@@ -110,8 +118,11 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getX() > dArrowSprite.getX() + 50 &&
            750-Gdx.input.getY() < dArrowSprite.getY() + dArrowSprite.getHeight() &&
            850-Gdx.input.getY() > dArrowSprite.getY()) {
-            if(Gdx.input.isTouched()) {
+            if(Gdx.input.isTouched() && game.downAvail()) {
                 System.out.println("Down arrow pressed");
+                game.getMaze();
+                game.move("down");
+                game.getMaze();
                 wait(200);
             }
         }
@@ -128,24 +139,34 @@ public class Main extends ApplicationAdapter {
         spriteBatch.begin();
 
         //spriteBatch.draw(rArrowTexture, 7,3,2,1);
-        rArrowSprite.draw(spriteBatch);
-        rArrowSprite.setPosition(800, 350);
+        if(game.rightAvail()) {
+            rArrowSprite.draw(spriteBatch);
+            rArrowSprite.setPosition(800, 350);
+        }
         // spriteBatch.draw(lArrowTexture, 0,3,2,1);
-        lArrowSprite.draw(spriteBatch);
-        lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
-        lArrowSprite.setRotation(180);
-        lArrowSprite.setPosition(0, 350);
+        if(game.leftAvail()) {
+            lArrowSprite.draw(spriteBatch);
+            lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
+            lArrowSprite.setRotation(180);
+            lArrowSprite.setPosition(0, 350);
+        }
+        
         //spriteBatch.draw(uArrowTexture, 4,5,1,2);
-        uArrowSprite.draw(spriteBatch);
-        uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
-        uArrowSprite.setRotation(90);
-        uArrowSprite.setPosition( 400, 650);
+        if(game.upAvail()) {
+            uArrowSprite.draw(spriteBatch);
+            uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
+            uArrowSprite.setRotation(90);
+            uArrowSprite.setPosition( 400, 650);
+        }
+        
         // spriteBatch.draw(dArrowTexture, 4,0,1,2);
-        dArrowSprite.draw(spriteBatch);
-        dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
-        dArrowSprite.setRotation(270);
-        dArrowSprite.setPosition(400, 50);
-
+        if(game.downAvail()) {
+            dArrowSprite.draw(spriteBatch);
+            dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
+            dArrowSprite.setRotation(270);
+            dArrowSprite.setPosition(400, 50);
+        }
+        
         spriteBatch.end();
     }
 
