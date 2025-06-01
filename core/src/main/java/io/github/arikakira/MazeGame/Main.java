@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -28,7 +30,10 @@ public class Main extends ApplicationAdapter {
     private Sprite uArrowSprite;
     private Sprite dArrowSprite;
 
-    Vector2 touchPos;
+    private FreeTypeFontGenerator fontGenerator;
+    private FreeTypeFontParameter fontParameter;
+    private BitmapFont font;
+    private SpriteBatch fontBatch;
 
     Maze game = new Maze(1, 6);
 
@@ -50,7 +55,14 @@ public class Main extends ApplicationAdapter {
         dArrowSprite = new Sprite(arrowTexture);
         dArrowSprite.setSize(200, 100);
 
-        touchPos = new Vector2();
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
+        fontParameter = new FreeTypeFontParameter();
+        fontParameter.size = 37;
+        // fontParameter.borderWidth = 1;
+        // fontParameter.borderColor = Color.RED;
+        fontParameter.color = Color.WHITE;
+        font = fontGenerator.generateFont(fontParameter); // font size 12 pixels
+        fontBatch = new SpriteBatch();
     }
 
     @Override
@@ -137,43 +149,54 @@ public class Main extends ApplicationAdapter {
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
+        fontBatch.begin();
 
+        if(!game.reachEnd()) {
+            if(game.rightAvail()) {
+                rArrowSprite.draw(spriteBatch);
+                rArrowSprite.setPosition(800, 350);
+            }
+            // spriteBatch.draw(lArrowTexture, 0,3,2,1);
+            if(game.leftAvail()) {
+                lArrowSprite.draw(spriteBatch);
+                lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
+                lArrowSprite.setRotation(180);
+                lArrowSprite.setPosition(0, 350);
+            }
+        
+            //spriteBatch.draw(uArrowTexture, 4,5,1,2);
+            if(game.upAvail()) {
+                uArrowSprite.draw(spriteBatch);
+                uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
+                uArrowSprite.setRotation(90);
+                uArrowSprite.setPosition( 400, 650);
+            }
+        
+            // spriteBatch.draw(dArrowTexture, 4,0,1,2);
+            if(game.downAvail()) {
+                dArrowSprite.draw(spriteBatch);
+                dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
+                dArrowSprite.setRotation(270);
+                dArrowSprite.setPosition(400, 50);
+            }
+
+
+            font.draw(fontBatch, "Coins: " + game.getCoins(), 50, Gdx.graphics.getHeight()-50); // graphics.getHeight is top of the screen
+        } else {
+            font.draw(fontBatch, "You won!", 400, Gdx.graphics.getHeight()/2f+37);
+        }
         //spriteBatch.draw(rArrowTexture, 7,3,2,1);
-        if(game.rightAvail()) {
-            rArrowSprite.draw(spriteBatch);
-            rArrowSprite.setPosition(800, 350);
-        }
-        // spriteBatch.draw(lArrowTexture, 0,3,2,1);
-        if(game.leftAvail()) {
-            lArrowSprite.draw(spriteBatch);
-            lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
-            lArrowSprite.setRotation(180);
-            lArrowSprite.setPosition(0, 350);
-        }
         
-        //spriteBatch.draw(uArrowTexture, 4,5,1,2);
-        if(game.upAvail()) {
-            uArrowSprite.draw(spriteBatch);
-            uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
-            uArrowSprite.setRotation(90);
-            uArrowSprite.setPosition( 400, 650);
-        }
-        
-        // spriteBatch.draw(dArrowTexture, 4,0,1,2);
-        if(game.downAvail()) {
-            dArrowSprite.draw(spriteBatch);
-            dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
-            dArrowSprite.setRotation(270);
-            dArrowSprite.setPosition(400, 50);
-        }
         
         spriteBatch.end();
+        fontBatch.end();
     }
 
     @Override
     public void dispose() {
         spriteBatch.dispose();
         arrowTexture.dispose();
+        fontBatch.dispose();
     }
 
     public static void wait(int ms) {
