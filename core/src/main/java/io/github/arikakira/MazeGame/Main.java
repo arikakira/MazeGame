@@ -21,6 +21,7 @@ public class Main extends ApplicationAdapter {
     // private Texture lArrowTexture;
     // private Texture uArrowTexture;
     // private Texture dArrowTexture;
+    private Texture chanceTexture;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -29,6 +30,7 @@ public class Main extends ApplicationAdapter {
     private Sprite lArrowSprite;
     private Sprite uArrowSprite;
     private Sprite dArrowSprite;
+    private Sprite chanceSprite;
 
     private FreeTypeFontGenerator fontGenerator;
     private FreeTypeFontParameter fontParameter;
@@ -41,6 +43,7 @@ public class Main extends ApplicationAdapter {
     public void create() {
         spriteBatch = new SpriteBatch();
         arrowTexture = new Texture("arrow.png");
+        chanceTexture = new Texture("placeholderChance.png");
         // lArrowTexture = new Texture("leftArrow.png");
         // uArrowTexture = new Texture("upArrow.png");
         // dArrowTexture = new Texture("downArrow.png");
@@ -54,6 +57,8 @@ public class Main extends ApplicationAdapter {
         uArrowSprite.setSize(200, 100);
         dArrowSprite = new Sprite(arrowTexture);
         dArrowSprite.setSize(200, 100);
+        chanceSprite = new Sprite(chanceTexture);
+        chanceSprite.setSize(437, 708);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -152,35 +157,39 @@ public class Main extends ApplicationAdapter {
         fontBatch.begin();
 
         if(!game.reachEnd()) {
-            if(game.rightAvail()) {
-                rArrowSprite.draw(spriteBatch);
-                rArrowSprite.setPosition(800, 350);
-            }
-            // spriteBatch.draw(lArrowTexture, 0,3,2,1);
-            if(game.leftAvail()) {
-                lArrowSprite.draw(spriteBatch);
-                lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
-                lArrowSprite.setRotation(180);
-                lArrowSprite.setPosition(0, 350);
-            }
+            if(!game.isGamblingTime()) {
+                if(game.rightAvail()) {
+                    rArrowSprite.draw(spriteBatch);
+                    rArrowSprite.setPosition(800, 350);
+                }
+                // spriteBatch.draw(lArrowTexture, 0,3,2,1);
+                if(game.leftAvail()) {
+                    lArrowSprite.draw(spriteBatch);
+                    lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
+                    lArrowSprite.setRotation(180);
+                    lArrowSprite.setPosition(0, 350);
+                }
         
-            //spriteBatch.draw(uArrowTexture, 4,5,1,2);
-            if(game.upAvail()) {
-                uArrowSprite.draw(spriteBatch);
-                uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
-                uArrowSprite.setRotation(90);
-                uArrowSprite.setPosition( 400, 650);
+                //spriteBatch.draw(uArrowTexture, 4,5,1,2);
+                if(game.upAvail()) {
+                    uArrowSprite.draw(spriteBatch);
+                    uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
+                    uArrowSprite.setRotation(90);
+                    uArrowSprite.setPosition( 400, 650);
+                }
+            
+                // spriteBatch.draw(dArrowTexture, 4,0,1,2);
+                if(game.downAvail()) {
+                    dArrowSprite.draw(spriteBatch);
+                    dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
+                    dArrowSprite.setRotation(270);
+                    dArrowSprite.setPosition(400, 50);
+                }
+            } else {
+                chanceSprite.draw(spriteBatch);
+                chanceSprite.setPosition(20, 20);
+                font.draw(fontBatch, "Gambling time!", 300, 50);
             }
-        
-            // spriteBatch.draw(dArrowTexture, 4,0,1,2);
-            if(game.downAvail()) {
-                dArrowSprite.draw(spriteBatch);
-                dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
-                dArrowSprite.setRotation(270);
-                dArrowSprite.setPosition(400, 50);
-            }
-
-
             font.draw(fontBatch, "Coins: " + game.getCoins(), 50, Gdx.graphics.getHeight()-50); // graphics.getHeight is top of the screen
         } else {
             font.draw(fontBatch, "You won!", 400, Gdx.graphics.getHeight()/2f+37);

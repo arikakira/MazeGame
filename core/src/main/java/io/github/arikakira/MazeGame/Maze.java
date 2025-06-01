@@ -9,6 +9,7 @@ public class Maze {
     private int endRow = 13;
     private int endCol = 5;
     private int coins = 0;
+    private boolean gamblingTime = false;
 
     private String[][] maze = 
     {
@@ -97,6 +98,7 @@ public class Maze {
                     coins++;
                 }
                 if(maze[currentRow][currentCol+1].equals("777")) {
+                    gamblingTime = true;
                     // Random chance to teleport to a random spot
                     int randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
                     int randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
@@ -154,5 +156,9 @@ public class Maze {
 
     public int getCoins() {
         return coins;
+    }
+
+    public boolean isGamblingTime() {
+        return gamblingTime;
     }
 }
