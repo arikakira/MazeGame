@@ -22,6 +22,7 @@ public class Main extends ApplicationAdapter {
     // private Texture uArrowTexture;
     // private Texture dArrowTexture;
     private Texture chanceTexture;
+    private Texture returnTexture;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -31,6 +32,7 @@ public class Main extends ApplicationAdapter {
     private Sprite uArrowSprite;
     private Sprite dArrowSprite;
     private Sprite chanceSprite;
+    private Sprite returnSprite;
 
     private FreeTypeFontGenerator fontGenerator;
     private FreeTypeFontParameter fontParameter;
@@ -44,6 +46,7 @@ public class Main extends ApplicationAdapter {
         spriteBatch = new SpriteBatch();
         arrowTexture = new Texture("arrow.png");
         chanceTexture = new Texture("placeholderChance.png");
+        returnTexture = new Texture("returnButton.png");
         // lArrowTexture = new Texture("leftArrow.png");
         // uArrowTexture = new Texture("upArrow.png");
         // dArrowTexture = new Texture("downArrow.png");
@@ -58,7 +61,9 @@ public class Main extends ApplicationAdapter {
         dArrowSprite = new Sprite(arrowTexture);
         dArrowSprite.setSize(200, 100);
         chanceSprite = new Sprite(chanceTexture);
-        chanceSprite.setSize(437, 708);
+        chanceSprite.setSize(440, 644);
+        returnSprite = new Sprite(returnTexture);
+        returnSprite.setSize(270, 120);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -77,9 +82,9 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
-        input();
         logic();
         draw();
+        input();
 
         // ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         // batch.begin();
@@ -100,7 +105,7 @@ public class Main extends ApplicationAdapter {
                 game.getMaze();
                 game.move("right");
                 game.getMaze();
-                wait(200);
+                wait(100);
             }
         }
 
@@ -112,7 +117,7 @@ public class Main extends ApplicationAdapter {
                 game.getMaze();
                 game.move("left");
                 game.getMaze();
-                wait(200);
+                wait(100);
             }
         }
 
@@ -124,7 +129,7 @@ public class Main extends ApplicationAdapter {
                 game.getMaze();
                 game.move("up");
                 game.getMaze();
-                wait(200);
+                wait(100);
             }
         }
 
@@ -136,7 +141,18 @@ public class Main extends ApplicationAdapter {
                 game.getMaze();
                 game.move("down");
                 game.getMaze();
-                wait(200);
+                wait(100);
+            }
+        }
+
+        if(Gdx.input.getX() < returnSprite.getX() + returnSprite.getWidth() &&
+           Gdx.input.getX() > returnSprite.getX() &&
+           810-Gdx.input.getY() < returnSprite.getY() + returnSprite.getHeight() &&
+           790-Gdx.input.getY() > returnSprite.getY()) {
+            if(Gdx.input.isTouched() && game.isGamblingTime() && !game.isDead()) {
+                game.getMaze();
+                game.setGamblingTime(false);
+                wait(100);
             }
         }
     }
@@ -182,7 +198,10 @@ public class Main extends ApplicationAdapter {
                 } else {
                     chanceSprite.draw(spriteBatch);
                     chanceSprite.setPosition(20, 20);
+                    returnSprite.draw(spriteBatch);
+                    returnSprite.setPosition(700, 20);
                     font.draw(fontBatch, "Gambling time!", 300, 50);
+
                 }
                 font.draw(fontBatch, "Coins: " + game.getCoins(), 50, Gdx.graphics.getHeight()-50); // graphics.getHeight is top of the screen
                 font.draw(fontBatch, "HP: " + game.getHealth(), 800, Gdx.graphics.getHeight()-50);

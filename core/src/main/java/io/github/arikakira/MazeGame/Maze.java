@@ -196,12 +196,12 @@ public class Maze {
         int random = (int) (Math.random() * 1) + 1;
         if(random==1) {      // teleport to random spot
             System.out.println("rolled a 1");
-            int randomRow = 0;
-            int randomCol = 0;
-            while(maze[randomRow][randomCol] != "   ") {
-                randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
-                randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
-            }
+            int randomRow = 1;
+            int randomCol = 9;
+            // while(maze[randomRow][randomCol] != "   ") {
+            //     randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
+            //     randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
+            // }
             maze[currentRow][currentCol] = "   ";
             maze[randomRow][randomCol] = "0-0";
             currentRow = randomRow;
