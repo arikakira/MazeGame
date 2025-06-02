@@ -184,16 +184,24 @@ public class Maze {
         return gamblingTime;
     }
 
+    public void setGamblingTime(boolean g) {
+        gamblingTime = g;
+    }
+
     public int getHealth() {
         return health;
     }
 
     public void randomEvent() {
-        int random = (int) (Math.random() * 10) + 1;
+        int random = (int) (Math.random() * 1) + 1;
         if(random==1) {      // teleport to random spot
             System.out.println("rolled a 1");
-            int randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
-            int randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
+            int randomRow = 0;
+            int randomCol = 0;
+            while(maze[randomRow][randomCol] != "   ") {
+                randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
+                randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
+            }
             maze[currentRow][currentCol] = "   ";
             maze[randomRow][randomCol] = "0-0";
             currentRow = randomRow;
