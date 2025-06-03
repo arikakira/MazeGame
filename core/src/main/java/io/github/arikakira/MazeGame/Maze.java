@@ -9,6 +9,7 @@ public class Maze {
     private int health = 4;
     private boolean gamblingTime = false;
     private boolean canSeeStatus = true;
+    private boolean gameStarted = false;
 
     private String[][] maze = 
     {
@@ -38,6 +39,14 @@ public class Maze {
         maze[r][c] = "0-0";
         currentRow = r;
         currentCol = c;
+    }
+
+    public boolean isStarted() {
+        return gameStarted;
+    }
+
+    public void setStarted(boolean start) {
+        gameStarted = start;
     }
 
     public void getMaze() {

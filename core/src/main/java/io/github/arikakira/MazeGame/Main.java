@@ -81,8 +81,33 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
-        draw();
-        input();
+        if(!game.isStarted()) {
+            startInstructions();
+        } else {
+            draw();
+            input();
+        }
+    }
+
+    public void startInstructions() {
+        ScreenUtils.clear(Color.BLACK);
+        viewport.apply();
+        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        spriteBatch.begin();
+        fontBatch.begin();
+        font.draw(fontBatch, "Welcome to the Maze Game!", 300, Gdx.graphics.getHeight()/2f+37);
+        font.draw(fontBatch, "Use the arrows to move around.", 250, Gdx.graphics.getHeight()/2f+10);
+        font.draw(fontBatch, "Reach the exit to win!", 350, Gdx.graphics.getHeight()/2f-17);
+        font.draw(fontBatch, "Avoid enemies and collect coins.", 250, Gdx.graphics.getHeight()/2f-44);
+        font.draw(fontBatch, "Press any key to start.", 350, Gdx.graphics.getHeight()/2f-71);
+        spriteBatch.end();
+        fontBatch.end();
+
+        if(Gdx.input.isTouched()) {
+            game.setStarted(true);
+            game.getMaze();
+            wait(1000);
+        }
     }
 
     public void input() {
