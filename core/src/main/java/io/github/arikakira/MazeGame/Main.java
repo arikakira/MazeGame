@@ -62,7 +62,7 @@ public class Main extends ApplicationAdapter {
         returnSprite = new Sprite(returnTexture);
         returnSprite.setSize(270, 120);
         coinSprite = new Sprite(coinTexture);
-        coinSprite.setSize(190, 235);
+        coinSprite.setSize(133, 164);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -161,7 +161,7 @@ public class Main extends ApplicationAdapter {
                     if(game.rightAvail()) {
                         rArrowSprite.draw(spriteBatch);
                         rArrowSprite.setPosition(800, 350);
-                        if(game.seeMazeStatus() && game.hasCoin()) {
+                        if(game.seeMazeStatus() && game.rHasCoin()) {
                             coinSprite.draw(spriteBatch);
                             coinSprite.setPosition(800, 300);
                         }

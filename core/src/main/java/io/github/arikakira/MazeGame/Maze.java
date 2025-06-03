@@ -9,7 +9,6 @@ public class Maze {
     private int health = 4;
     private boolean gamblingTime = false;
     private boolean canSeeStatus = true;
-    private boolean hasCoin = false;
 
     private String[][] maze = 
     {
@@ -144,8 +143,20 @@ public class Maze {
         return canSeeStatus;
     }
 
-    public boolean hasCoin() {
-        return hasCoin;
+    public boolean rHasCoin() {
+        return maze[currentRow][currentCol+1].equals(" o ");
+    }
+
+    public boolean lHasCoin() {
+        return maze[currentRow][currentCol-1].equals(" o ");
+    }
+
+    public boolean uHasCoin() {
+        return maze[currentRow-1][currentCol].equals(" o ");
+    }
+
+    public boolean dHasCoin() {
+        return maze[currentRow+1][currentCol].equals(" o ");
     }
 
     public void randomEvent() {
