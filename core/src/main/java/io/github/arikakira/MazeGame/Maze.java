@@ -74,6 +74,22 @@ public class Maze {
         return false;
     }
 
+    public boolean rHasCoin() {
+        return maze[currentRow][currentCol+1].equals(" o ");
+    }
+
+    public boolean lHasCoin() {
+        return maze[currentRow][currentCol-1].equals(" o ");
+    }
+
+    public boolean uHasCoin() {
+        return maze[currentRow-1][currentCol].equals(" o ");
+    }
+
+    public boolean dHasCoin() {
+        return maze[currentRow+1][currentCol].equals(" o ");
+    }
+
     public boolean reachEnd() {
         return (currentRow==endRow && currentCol == endCol);
     }
@@ -141,22 +157,6 @@ public class Maze {
 
     public boolean seeMazeStatus() {
         return canSeeStatus;
-    }
-
-    public boolean rHasCoin() {
-        return maze[currentRow][currentCol+1].equals(" o ");
-    }
-
-    public boolean lHasCoin() {
-        return maze[currentRow][currentCol-1].equals(" o ");
-    }
-
-    public boolean uHasCoin() {
-        return maze[currentRow-1][currentCol].equals(" o ");
-    }
-
-    public boolean dHasCoin() {
-        return maze[currentRow+1][currentCol].equals(" o ");
     }
 
     public void randomEvent() {

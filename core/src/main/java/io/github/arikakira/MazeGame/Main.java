@@ -62,7 +62,7 @@ public class Main extends ApplicationAdapter {
         returnSprite = new Sprite(returnTexture);
         returnSprite.setSize(270, 120);
         coinSprite = new Sprite(coinTexture);
-        coinSprite.setSize(133, 164);
+        coinSprite.setSize(95, 117);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -163,7 +163,7 @@ public class Main extends ApplicationAdapter {
                         rArrowSprite.setPosition(800, 350);
                         if(game.seeMazeStatus() && game.rHasCoin()) {
                             coinSprite.draw(spriteBatch);
-                            coinSprite.setPosition(800, 300);
+                            coinSprite.setPosition(800, 250);
                         }
                     }
                     if(game.leftAvail()) {
@@ -171,18 +171,30 @@ public class Main extends ApplicationAdapter {
                         lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
                         lArrowSprite.setRotation(180);
                         lArrowSprite.setPosition(0, 350);
+                        if(game.seeMazeStatus() && game.lHasCoin()) {
+                            coinSprite.draw(spriteBatch);
+                            coinSprite.setPosition(100, 250);
+                        }
                     }
                     if(game.upAvail()) {
                         uArrowSprite.draw(spriteBatch);
                         uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
                         uArrowSprite.setRotation(90);
                         uArrowSprite.setPosition( 400, 650);
+                        if(game.seeMazeStatus() && game.uHasCoin()) {
+                            coinSprite.draw(spriteBatch);
+                            coinSprite.setPosition(550, 600);
+                        }
                     }
                     if(game.downAvail()) {
                         dArrowSprite.draw(spriteBatch);
                         dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
                         dArrowSprite.setRotation(270);
                         dArrowSprite.setPosition(400, 50);
+                        if(game.seeMazeStatus() && game.dHasCoin()) {
+                            coinSprite.draw(spriteBatch);
+                            coinSprite.setPosition(350, 70);
+                        }
                     }
                 } else {        // GAMBLING TIME
                     chanceSprite.draw(spriteBatch);
