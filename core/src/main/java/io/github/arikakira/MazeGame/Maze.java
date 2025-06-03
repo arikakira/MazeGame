@@ -8,7 +8,7 @@ public class Maze {
     private int coins = 0;
     private int health = 4;
     private boolean gamblingTime = false;
-    private boolean canSeeStatus = false;
+    private boolean canSeeStatus = true;
     private boolean hasCoin = false;
 
     private String[][] maze = 
@@ -113,7 +113,6 @@ public class Maze {
         } else {
             if(maze[r][c].equals(" o ")) {
                 coins++;
-                hasCoin = true;
             }
             if(maze[r][c].equals(">-<")) {
                 health--;

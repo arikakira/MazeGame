@@ -20,6 +20,7 @@ public class Main extends ApplicationAdapter {
     private Texture arrowTexture;
     private Texture chanceTexture;
     private Texture returnTexture;
+    private Texture coinTexture;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -30,6 +31,7 @@ public class Main extends ApplicationAdapter {
     private Sprite dArrowSprite;
     private Sprite chanceSprite;
     private Sprite returnSprite;
+    private Sprite coinSprite;
 
     private FreeTypeFontGenerator fontGenerator;
     private FreeTypeFontParameter fontParameter;
@@ -44,6 +46,7 @@ public class Main extends ApplicationAdapter {
         arrowTexture = new Texture("arrow.png");
         chanceTexture = new Texture("placeholderChance.png");
         returnTexture = new Texture("returnButton.png");
+        coinTexture = new Texture("coin.png");
         viewport = new FitViewport(1000, 800);
 
         rArrowSprite = new Sprite(arrowTexture);
@@ -58,6 +61,8 @@ public class Main extends ApplicationAdapter {
         chanceSprite.setSize(440, 644);
         returnSprite = new Sprite(returnTexture);
         returnSprite.setSize(270, 120);
+        coinSprite = new Sprite(coinTexture);
+        coinSprite.setSize(190, 235);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -156,8 +161,9 @@ public class Main extends ApplicationAdapter {
                     if(game.rightAvail()) {
                         rArrowSprite.draw(spriteBatch);
                         rArrowSprite.setPosition(800, 350);
-                        if(game.seeMazeStatus()) {
-                            
+                        if(game.seeMazeStatus() && game.hasCoin()) {
+                            coinSprite.draw(spriteBatch);
+                            coinSprite.setPosition(800, 300);
                         }
                     }
                     if(game.leftAvail()) {
