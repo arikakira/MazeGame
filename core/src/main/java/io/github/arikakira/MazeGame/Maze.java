@@ -8,6 +8,8 @@ public class Maze {
     private int coins = 0;
     private int health = 4;
     private boolean gamblingTime = false;
+    private boolean canSeeStatus = false;
+    private boolean hasCoin = false;
 
     private String[][] maze = 
     {
@@ -49,35 +51,24 @@ public class Maze {
     }
 
     public boolean rightAvail() {
-        for(String space : spaces) {
-            if(maze[currentRow][currentCol+1] == space) {
-                return true;
-            }
-        }
-        return false;
+        return checkAvail(currentRow, currentCol+1);
     }
 
     public boolean leftAvail() {
-        for(String space : spaces) {
-            if(maze[currentRow][currentCol-1] == space) {
-                return true;
-            }
-        }
-        return false;
+        return checkAvail(currentRow, currentCol-1);
     }
 
     public boolean upAvail() {
-        for(String space : spaces) {
-            if(maze[currentRow-1][currentCol] == space) {
-                return true;
-            }
-        }
-        return false;
+        return checkAvail(currentRow-1, currentCol);
     }
 
     public boolean downAvail() {
+        return checkAvail(currentRow+1, currentCol);
+    }
+
+    public boolean checkAvail(int r, int c) {
         for(String space : spaces) {
-            if(maze[currentRow+1][currentCol] == space) {
+            if(maze[r][c] == space) {
                 return true;
             }
         }
@@ -92,88 +83,46 @@ public class Maze {
         return (health <= 0);
     }
 
-    public boolean move(String input) {
+    public void move(String input) {
         if(input.equals("right")) {
             if(rightAvail()) {
-                if(maze[currentRow][currentCol+1].equals(" o ")) {
-                    coins++;
-                }
-                if(maze[currentRow][currentCol+1].equals("777")) {
-                    gamblingTime = true;
-                    randomEvent();
-                    return true;
-                }
-                if(maze[currentRow][currentCol+1].equals(">-<")) {
-                    health--;
-                }
-                maze[currentRow][currentCol] = "   ";
-                maze[currentRow][currentCol+1] = "0-0";
-                currentCol = currentCol + 1;
-                return true;
+                moveSpace(currentRow, currentCol+1);
             }
-            return false;
         }
         if(input.equals("left")) {
             if(leftAvail()) {
-                if(maze[currentRow][currentCol-1].equals(" o ")) {
-                    coins++;
-                }
-                if(maze[currentRow][currentCol-1].equals("777")) {
-                    gamblingTime = true;
-                    randomEvent();
-                    return true;
-                }
-                if(maze[currentRow][currentCol-1].equals(">-<")) {
-                    health--;
-                }
-                maze[currentRow][currentCol] = "   ";
-                maze[currentRow][currentCol-1] = "0-0";
-                currentCol = currentCol - 1;
-                return true;
+                moveSpace(currentRow, currentCol-1);
             }
-                return false;
         }
         if(input.equals("up")) {
             if(upAvail()) {
-                if(maze[currentRow-1][currentCol].equals(" o ")) {
-                    coins++;
-                }
-                if(maze[currentRow-1][currentCol].equals("777")) {
-                    gamblingTime = true;
-                    randomEvent();
-                    return true;
-                }
-                if(maze[currentRow-1][currentCol].equals(">-<")) {
-                    health--;
-                }
-                maze[currentRow][currentCol] = "   ";
-                maze[currentRow-1][currentCol] = "0-0";
-                currentRow = currentRow - 1;
-                return true;
+                moveSpace(currentRow-1, currentCol);
             }
-                return false;
         }
         if(input.equals("down")) {
             if(downAvail()) {
-                if(maze[currentRow+1][currentCol].equals(" o ")) {
-                    coins++;
-                }
-                if(maze[currentRow+1][currentCol].equals("777")) {
-                    gamblingTime = true;
-                    randomEvent();
-                    return true;
-                }
-                if(maze[currentRow+1][currentCol].equals(">-<")) {
-                    health--;
-                }
-                maze[currentRow][currentCol] = "   ";
-                maze[currentRow+1][currentCol] = "0-0";
-                currentRow = currentRow + 1;
-                return true;
+                moveSpace(currentRow+1, currentCol);
             }
-                return false;
         }
-        return false;
+    }
+
+    public void moveSpace(int r, int c) {
+        if(maze[r][c].equals("777")) {
+            gamblingTime = true;
+            randomEvent();
+        } else {
+            if(maze[r][c].equals(" o ")) {
+                coins++;
+                hasCoin = true;
+            }
+            if(maze[r][c].equals(">-<")) {
+                health--;
+            }
+            maze[currentRow][currentCol] = "   ";
+            maze[r][c] = "0-0";
+            currentRow = r;
+            currentCol = c;
+        }
     }
 
     public int getCoins() {
@@ -192,47 +141,61 @@ public class Maze {
         return health;
     }
 
+    public boolean seeMazeStatus() {
+        return canSeeStatus;
+    }
+
+    public boolean hasCoin() {
+        return hasCoin;
+    }
+
     public void randomEvent() {
-        int random = (int) (Math.random() * 1) + 1;
+        int random = (int) (Math.random() * 7) + 1;
         if(random==1) {      // teleport to random spot
             System.out.println("rolled a 1");
-            int randomRow = 1;
-            int randomCol = 9;
-            // while(maze[randomRow][randomCol] != "   ") {
-            //     randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
-            //     randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
-            // }
+            int randomRow = 0;
+            int randomCol = 0;
+            while(maze[randomRow][randomCol] != "   ") {
+                randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
+                randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
+            }
             maze[currentRow][currentCol] = "   ";
             maze[randomRow][randomCol] = "0-0";
             currentRow = randomRow;
             currentCol = randomCol;
         }
         if(random==2) {
-            System.out.println("rolled a 2");;
+            System.out.println("rolled a 2");
+            coins--;
         }
         if(random==3) {
-            System.out.println("rolled a 3");;
+            System.out.println("rolled a 3");
+            coins = coins + 2;
         }
         if(random==4) {
-            System.out.println("rolled a 4");;
+            System.out.println("rolled a 4");
+            health--;
         }
         if(random==5) {
-            System.out.println("rolled a 5");;
+            System.out.println("rolled a 5");
+            health = health + 2;
         }
         if(random==6) {
-            System.out.println("rolled a 6");;
+            System.out.println("rolled a 6");
+            coins = coins + 3;
         }
         if(random==7) {
-            System.out.println("rolled a 7");;
+            System.out.println("rolled a 7");
+            canSeeStatus = true;
         }
         if(random==8) {
-            System.out.println("rolled a 8");;
+            System.out.println("rolled a 8");
         }
         if(random==9) {
-            System.out.println("rolled a 9");;
+            System.out.println("rolled a 9");
         }
         if(random==10) {
-            System.out.println("rolled a 10");;
+            System.out.println("rolled a 10");
         }
     }
 }

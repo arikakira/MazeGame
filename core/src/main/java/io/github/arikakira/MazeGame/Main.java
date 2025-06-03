@@ -18,9 +18,6 @@ import java.lang.Thread;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
     private Texture arrowTexture;
-    // private Texture lArrowTexture;
-    // private Texture uArrowTexture;
-    // private Texture dArrowTexture;
     private Texture chanceTexture;
     private Texture returnTexture;
 
@@ -47,9 +44,6 @@ public class Main extends ApplicationAdapter {
         arrowTexture = new Texture("arrow.png");
         chanceTexture = new Texture("placeholderChance.png");
         returnTexture = new Texture("returnButton.png");
-        // lArrowTexture = new Texture("leftArrow.png");
-        // uArrowTexture = new Texture("upArrow.png");
-        // dArrowTexture = new Texture("downArrow.png");
         viewport = new FitViewport(1000, 800);
 
         rArrowSprite = new Sprite(arrowTexture);
@@ -82,18 +76,8 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
-        logic();
         draw();
         input();
-
-        // ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        // batch.begin();
-        // batch.draw(image, 200, 210);    // this moves the image
-        // batch.end();
-
-        // System.out.println(rArrowSprite.getX() + " " + rArrowSprite.getY());
-        // System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
-        // System.out.println(dArrowSprite.getX() + dArrowSprite.getWidth() + " " + uArrowSprite.getX() + " " + uArrowSprite.getY() + uArrowSprite.getHeight() + " " + uArrowSprite.getY());
     }
 
     public void input() {
@@ -156,10 +140,6 @@ public class Main extends ApplicationAdapter {
             }
         }
     }
-
-    public void logic() {
-        
-    }
     
     public void draw() {
         ScreenUtils.clear(Color.BLACK);
@@ -169,13 +149,16 @@ public class Main extends ApplicationAdapter {
         fontBatch.begin();
 
         if(!game.reachEnd()) {
-            if(game.isDead()) {
+            if(game.isDead()) {     // PLAYER IS DEAD
                 font.draw(fontBatch, "You died!", 400, Gdx.graphics.getHeight()/2f+37);
             } else {
-                if(!game.isGamblingTime()) {
+                if(!game.isGamblingTime()) {        // REGULAR MAZE MOVEMENT
                     if(game.rightAvail()) {
                         rArrowSprite.draw(spriteBatch);
                         rArrowSprite.setPosition(800, 350);
+                        if(game.seeMazeStatus()) {
+                            
+                        }
                     }
                     if(game.leftAvail()) {
                         lArrowSprite.draw(spriteBatch);
@@ -195,23 +178,19 @@ public class Main extends ApplicationAdapter {
                         dArrowSprite.setRotation(270);
                         dArrowSprite.setPosition(400, 50);
                     }
-                } else {
+                } else {        // GAMBLING TIME
                     chanceSprite.draw(spriteBatch);
                     chanceSprite.setPosition(20, 20);
                     returnSprite.draw(spriteBatch);
                     returnSprite.setPosition(700, 20);
                     font.draw(fontBatch, "Gambling time!", 300, 50);
-
-                }
+                }       // DISPLAYING PLAYER STATS
                 font.draw(fontBatch, "Coins: " + game.getCoins(), 50, Gdx.graphics.getHeight()-50); // graphics.getHeight is top of the screen
                 font.draw(fontBatch, "HP: " + game.getHealth(), 800, Gdx.graphics.getHeight()-50);
             }
-        } else {
+        } else {        // REACHED EXIT
             font.draw(fontBatch, "You won!", 400, Gdx.graphics.getHeight()/2f+37);
         }
-        //spriteBatch.draw(rArrowTexture, 7,3,2,1);
-        
-        
         spriteBatch.end();
         fontBatch.end();
     }
