@@ -11,6 +11,7 @@ public class Maze {
     private boolean gamblingTime = false;
     private boolean canSeeStatus = false;
     private boolean gameStarted = false;
+    private boolean ranIntoMonster = false;
 
     private String[][] maze = 
     {
@@ -139,6 +140,7 @@ public class Maze {
             }
             if(maze[r][c].equals(">-<")) {
                 health--;
+                ranIntoMonster = true;
             }
             maze[currentRow][currentCol] = "   ";
             maze[r][c] = "0-0";
@@ -165,6 +167,14 @@ public class Maze {
 
     public boolean seeMazeStatus() {
         return canSeeStatus;
+    }
+
+    public boolean ranIntoMonster() {
+        return ranIntoMonster;
+    }
+
+    public void setRanIntoMonster(boolean r) {
+        ranIntoMonster = r;
     }
 
     public void randomEvent() {

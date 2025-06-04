@@ -171,6 +171,10 @@ public class Main extends ApplicationAdapter {
                 wait(100);
             }
         }
+
+        // if(Gdx.input.isTouched() && game.ranIntoMonster() && !game.isDead() && !game.isGamblingTime()) {
+        //     game.setRanIntoMonster(false);
+        // }
     }
     
     public void draw() {
@@ -222,6 +226,10 @@ public class Main extends ApplicationAdapter {
                             coinSprite.draw(spriteBatch);
                             coinSprite.setPosition(350, 70);
                         }
+                    }
+                    if(game.ranIntoMonster()) {
+                        font.draw(fontBatch, "You ran into a monster!", 230, Gdx.graphics.getHeight()/2f+30);
+                        font.draw(fontBatch,"You lost 1 HP!", 330, Gdx.graphics.getHeight()/2f-7);
                     }
                 } else {        // GAMBLING TIME
                     chanceSprite.draw(spriteBatch);
