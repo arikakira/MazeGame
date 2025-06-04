@@ -7,8 +7,9 @@ public class Maze {
     private int endCol = 5;
     private int coins = 0;
     private int health = 4;
+    private int roll = 0;
     private boolean gamblingTime = false;
-    private boolean canSeeStatus = true;
+    private boolean canSeeStatus = false;
     private boolean gameStarted = false;
 
     private String[][] maze = 
@@ -31,9 +32,6 @@ public class Maze {
     };
 
      private String[] spaces = {"   ", "^v^", "777", " o ", ">-<"};
-    // 777 is a wheel that gives a random chance of getting these:
-    // teleport to random spot, inverted controls but dont say directly, trivia minigame?
-    // seeing whole maze for a few sec, move 2 spaces, bomb to break walls but can destroy items too, know which direction exit is
 
     public Maze(int r, int c) {
         maze[r][c] = "0-0";
@@ -133,6 +131,7 @@ public class Maze {
     public void moveSpace(int r, int c) {
         if(maze[r][c].equals("777")) {
             gamblingTime = true;
+            coins--;
             randomEvent();
         } else {
             if(maze[r][c].equals(" o ")) {
@@ -169,52 +168,68 @@ public class Maze {
     }
 
     public void randomEvent() {
-        int random = (int) (Math.random() * 7) + 1;
-        if(random==1) {      // teleport to random spot
-            System.out.println("rolled a 1");
-            int randomRow = 0;
-            int randomCol = 0;
-            while(maze[randomRow][randomCol] != "   ") {
-                randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
-                randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
-            }
-            maze[currentRow][currentCol] = "   ";
-            maze[randomRow][randomCol] = "0-0";
-            currentRow = randomRow;
-            currentCol = randomCol;
+        int random = (int) (Math.random() * 10) + 1;
+        switch(random) {      // teleport to random spot
+            case 1:
+                System.out.println("rolled a 1");
+                roll = 1;
+                int randomRow = 0;
+                int randomCol = 0;
+                while(maze[randomRow][randomCol] != "   ") {
+                    randomRow = (int)(Math.random() * (maze.length - 2)) + 1; // Avoid first and last row
+                    randomCol = (int)(Math.random() * (maze[0].length - 2)) + 1; // Avoid first and last column
+                }
+                maze[currentRow][currentCol] = "   ";
+                maze[randomRow][randomCol] = "0-0";
+                currentRow = randomRow;
+                currentCol = randomCol;
+                break;
+            case 2:
+                System.out.println("rolled a 2");
+                roll = 2;
+                coins--;
+                break;
+            case 3:
+                System.out.println("rolled a 3");
+                roll = 3;
+                coins = coins + 2;
+                break;
+            case 4:
+                System.out.println("rolled a 4");
+                roll = 4;
+                health--;
+                break;
+            case 5:
+                System.out.println("rolled a 5");
+                roll = 5;
+                health = health + 2;
+                break;
+            case 6:
+                System.out.println("rolled a 6");
+                roll = 6;
+                coins = coins + 3;
+                break;
+            case 7:
+                System.out.println("rolled a 7");
+                roll = 7;
+                canSeeStatus = true;
+                break;
+            case 8:
+                System.out.println("rolled a 8");
+                roll = 8;
+                break;
+            case 9:
+                System.out.println("rolled a 9");
+                roll = 9;
+                break;
+            case 10:
+                System.out.println("rolled a 10");
+                roll = 10;
+                break;
         }
-        if(random==2) {
-            System.out.println("rolled a 2");
-            coins--;
-        }
-        if(random==3) {
-            System.out.println("rolled a 3");
-            coins = coins + 2;
-        }
-        if(random==4) {
-            System.out.println("rolled a 4");
-            health--;
-        }
-        if(random==5) {
-            System.out.println("rolled a 5");
-            health = health + 2;
-        }
-        if(random==6) {
-            System.out.println("rolled a 6");
-            coins = coins + 3;
-        }
-        if(random==7) {
-            System.out.println("rolled a 7");
-            canSeeStatus = true;
-        }
-        if(random==8) {
-            System.out.println("rolled a 8");
-        }
-        if(random==9) {
-            System.out.println("rolled a 9");
-        }
-        if(random==10) {
-            System.out.println("rolled a 10");
-        }
+    }
+    
+    public int getRoll() {
+        return roll;
     }
 }

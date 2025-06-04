@@ -38,6 +38,8 @@ public class Main extends ApplicationAdapter {
     private BitmapFont font;
     private SpriteBatch fontBatch;
 
+    private int roll = 0;
+
     Maze game = new Maze(1, 6);
 
     @Override
@@ -95,18 +97,18 @@ public class Main extends ApplicationAdapter {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         fontBatch.begin();
-        font.draw(fontBatch, "Welcome to the Maze Game!", 300, Gdx.graphics.getHeight()/2f+37);
-        font.draw(fontBatch, "Use the arrows to move around.", 250, Gdx.graphics.getHeight()/2f+10);
-        font.draw(fontBatch, "Reach the exit to win!", 350, Gdx.graphics.getHeight()/2f-17);
-        font.draw(fontBatch, "Avoid enemies and collect coins.", 250, Gdx.graphics.getHeight()/2f-44);
-        font.draw(fontBatch, "Press any key to start.", 350, Gdx.graphics.getHeight()/2f-71);
+        font.draw(fontBatch, "Welcome to the Maze Game!", 200, Gdx.graphics.getHeight()/2f+122);
+        font.draw(fontBatch, "Use the arrows to move around.", 140, Gdx.graphics.getHeight()/2f+50);
+        font.draw(fontBatch, "Reach the exit to win!", 240, Gdx.graphics.getHeight()/2f+18);
+        font.draw(fontBatch, "Avoid enemies and collect coins.", 115, Gdx.graphics.getHeight()/2f-14);
+        font.draw(fontBatch, "Click anywhere to start.", 225, Gdx.graphics.getHeight()/2f-86);
         spriteBatch.end();
         fontBatch.end();
 
         if(Gdx.input.isTouched()) {
             game.setStarted(true);
             game.getMaze();
-            wait(1000);
+            wait(100);
         }
     }
 
@@ -227,6 +229,8 @@ public class Main extends ApplicationAdapter {
                     returnSprite.draw(spriteBatch);
                     returnSprite.setPosition(700, 20);
                     font.draw(fontBatch, "Gambling time!", 300, 50);
+                    roll = game.getRoll();
+                    displayRoll(roll);
                 }       // DISPLAYING PLAYER STATS
                 font.draw(fontBatch, "Coins: " + game.getCoins(), 50, Gdx.graphics.getHeight()-50); // graphics.getHeight is top of the screen
                 font.draw(fontBatch, "HP: " + game.getHealth(), 800, Gdx.graphics.getHeight()-50);
@@ -250,6 +254,43 @@ public class Main extends ApplicationAdapter {
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    public void displayRoll(int r) {
+        switch(r) {
+            case 1:
+                font.draw(fontBatch, "You teleported to", 470, 470);
+                font.draw(fontBatch, "a random spot!", 500, 420);
+                break;
+            case 2:
+                font.draw(fontBatch, "You lost a coin!", 470, 470);
+                break;
+            case 3:
+                font.draw(fontBatch, "You gained 2 coins!", 470, 470);
+                break;
+            case 4:
+                font.draw(fontBatch, "You lost 1 health!", 470, 470);
+                break;
+            case 5:
+                font.draw(fontBatch, "You gained 2 health!", 470, 470);
+                break;
+            case 6:
+                font.draw(fontBatch, "You gained 3 coins!", 470, 470);
+                break;
+            case 7:
+                font.draw(fontBatch, "You can see what's in", 470, 470);
+                font.draw(fontBatch, "the spaces around you!", 465, 420);
+                break;
+            case 8:
+                font.draw(fontBatch, "You got a bonus!", 200, 150);
+                break;
+            case 9:
+                font.draw(fontBatch, "You found a secret!", 200, 150);
+                break;
+            case 10:
+                font.draw(fontBatch, "You triggered a trap!", 200, 150);
+                break;
         }
     }
 }
