@@ -283,13 +283,13 @@ public class Main extends ApplicationAdapter {
                 font.draw(fontBatch, "the spaces around you!", 465, 420);
                 break;
             case 8:
-                font.draw(fontBatch, "You got a bonus!", 200, 150);
+                font.draw(fontBatch, "You got information!", 470, 470);
                 break;
             case 9:
-                font.draw(fontBatch, "You found a secret!", 200, 150);
+                font.draw(fontBatch, "You got information!", 470, 470);
                 break;
             case 10:
-                font.draw(fontBatch, "You triggered a trap!", 200, 150);
+                font.draw(fontBatch, "You got a bomb!", 470, 500);
                 break;
         }
     }
