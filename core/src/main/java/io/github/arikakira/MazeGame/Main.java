@@ -23,6 +23,7 @@ public class Main extends ApplicationAdapter {
     private Texture coinTexture;
     private Texture bombTexture;
     private Texture monsterTexture;
+    private Texture slotTexture;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -36,6 +37,7 @@ public class Main extends ApplicationAdapter {
     private Sprite coinSprite;
     private Sprite bombSprite;
     private Sprite monsterSprite;
+    private Sprite slotSprite;
 
     private FreeTypeFontGenerator fontGenerator;
     private FreeTypeFontParameter fontParameter;
@@ -58,6 +60,7 @@ public class Main extends ApplicationAdapter {
         coinTexture = new Texture("coin.png");
         bombTexture = new Texture("bombButton.png");
         monsterTexture = new Texture("monster.png");
+        slotTexture = new Texture("slotMachine.png");
         viewport = new FitViewport(1000, 800);
 
         rArrowSprite = new Sprite(arrowTexture);
@@ -78,6 +81,8 @@ public class Main extends ApplicationAdapter {
         bombSprite.setSize(221, 120);
         monsterSprite = new Sprite(monsterTexture);
         monsterSprite.setSize(186, 171);
+        slotSprite = new Sprite(slotTexture);
+        slotSprite.setSize(182, 112);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -232,6 +237,10 @@ public class Main extends ApplicationAdapter {
                                 monsterSprite.draw(spriteBatch);
                                 monsterSprite.setPosition(760, 200);
                             }
+                            if(game.rHasGambling()) {
+                                slotSprite.draw(spriteBatch);
+                                slotSprite.setPosition(780, 220);
+                            }
                         }
                     }
                     if(game.leftAvail()) {
@@ -247,6 +256,10 @@ public class Main extends ApplicationAdapter {
                             if(game.lHasMonster()) {
                                 monsterSprite.draw(spriteBatch);
                                 monsterSprite.setPosition(90, 200);
+                            }
+                            if(game.lHasGambling()) {
+                                slotSprite.draw(spriteBatch);
+                                slotSprite.setPosition(90, 230);
                             }
                         }
                     }
@@ -264,6 +277,10 @@ public class Main extends ApplicationAdapter {
                                 monsterSprite.draw(spriteBatch);
                                 monsterSprite.setPosition(550, 600);
                             }
+                            if(game.uHasGambling()) {
+                                slotSprite.draw(spriteBatch);
+                                slotSprite.setPosition(550, 620);
+                            }
                         }
                     }
                     if(game.downAvail()) {
@@ -279,6 +296,10 @@ public class Main extends ApplicationAdapter {
                             if(game.dHasMonster()) {
                                 monsterSprite.draw(spriteBatch);
                                 monsterSprite.setPosition(290, 30);
+                            }
+                            if(game.dHasGambling()) {
+                                slotSprite.draw(spriteBatch);
+                                slotSprite.setPosition(260, 20);
                             }
                         }
                     }

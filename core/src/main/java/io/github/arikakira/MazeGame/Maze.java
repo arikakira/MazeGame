@@ -6,7 +6,7 @@ public class Maze {
     private int endRow = 13;
     private int endCol = 5;
     private int coins = 0;
-    private int health = 4;
+    private int health = 6;
     private int roll = 0;
     private boolean gamblingTime = false;
     private boolean canSeeStatus = false;
@@ -29,9 +29,9 @@ public class Maze {
         {"XXX"," o ","   ","   ","   ","XXX","XXX","   ","   ","   ","   ","   ","XXX","   ","XXX"},
         {"XXX","   ","777","XXX","   ","XXX"," o ","   ","XXX",">-<","XXX","   "," o ","   ","XXX"},
         {"XXX",">-<","XXX","XXX"," o ","   ","   ",">-<","XXX","XXX","XXX","XXX",">-<","XXX","XXX"},
-        {"XXX","   "," o ","XXX","   ","XXX","XXX"," o ","XXX","XXX","XXX","   "," o ","777","XXX"},
-        {"XXX","XXX","   ","XXX","   ","   ","XXX","   ","XXX","777","   "," o ","XXX","XXX","XXX"},
-        {"XXX","777","   ","XXX","XXX","^v^","XXX","777","XXX","XXX","XXX","   "," o ","777","XXX"},
+        {"XXX","   "," o ","XXX","   ","XXX","XXX"," o ","XXX","   ","777","   "," o ","777","XXX"},
+        {"XXX","XXX","   ","XXX","   ","   ","XXX","   ","XXX"," o ","   "," o ","XXX","XXX","XXX"},
+        {"XXX","777","   ","XXX","XXX","^v^","XXX","777","XXX"," o ",">-<","   "," o ","777","XXX"},
         {"XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX"}
     };
 
@@ -115,6 +115,22 @@ public class Maze {
 
     public boolean dHasMonster() {
         return maze[currentRow+1][currentCol].equals(">-<");
+    }
+
+    public boolean rHasGambling() {
+        return maze[currentRow][currentCol+1].equals("777");
+    }
+    
+    public boolean lHasGambling() {
+        return maze[currentRow][currentCol-1].equals("777");
+    }
+
+    public boolean uHasGambling() {
+        return maze[currentRow-1][currentCol].equals("777");
+    }
+
+    public boolean dHasGambling() {
+        return maze[currentRow+1][currentCol].equals("777");
     }
 
     public boolean reachEnd() {
@@ -207,7 +223,7 @@ public class Maze {
     }
 
     public void randomEvent() {
-        int random = (int) (Math.random() * 1) + 7;
+        int random = (int) (Math.random() * 10) + 1;
         switch(random) {      // teleport to random spot
             case 1:
                 System.out.println("rolled a 1");
@@ -229,9 +245,9 @@ public class Maze {
                 coins--;
                 break;
             case 3:
-                System.out.println("rolled a 3");
-                roll = 3;
-                coins = coins + 2;
+                System.out.println("rolled a 3 but its a 7");
+                roll = 7;
+                canSeeStatus = true;
                 break;
             case 4:
                 System.out.println("rolled a 4");
