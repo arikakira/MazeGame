@@ -13,6 +13,7 @@ public class Maze {
     private boolean gameStarted = false;
     private boolean ranIntoMonster = false;
     private boolean gotCoin = false;
+    private boolean broke = true;
 
     private String[][] maze = 
     {
@@ -133,8 +134,13 @@ public class Maze {
     public void moveSpace(int r, int c) {
         if(maze[r][c].equals("777")) {
             gamblingTime = true;
-            coins--;
-            randomEvent();
+            if(coins >= 1) {
+                broke = false;
+                coins--;
+                randomEvent();
+            } else {
+                broke = true;
+            }
         } else {
             if(maze[r][c].equals(" o ")) {
                 coins++;
@@ -187,8 +193,12 @@ public class Maze {
         gotCoin = c;
     }
 
+    public boolean isBroke() {
+        return broke;
+    }
+
     public void randomEvent() {
-        int random = (int) (Math.random() * 2) + 7;
+        int random = (int) (Math.random() * 2) + 8;
         switch(random) {      // teleport to random spot
             case 1:
                 System.out.println("rolled a 1");
@@ -235,11 +245,11 @@ public class Maze {
                 canSeeStatus = true;
                 break;
             case 8:
-                System.out.println("rolled a 8");
+                System.out.println("rolled a 8");       // horizontal direction for exit
                 roll = 8;
                 break;
             case 9:
-                System.out.println("rolled a 9");
+                System.out.println("rolled a 9");       // vertical direction for exit
                 roll = 9;
                 break;
             case 10:
@@ -263,9 +273,9 @@ public class Maze {
 
     public String vExitDirection() {
         if(currentRow<endRow) {
-            return "up";
-        } else {
             return "down";
+        } else {
+            return "up";
         }
     }
 }

@@ -251,7 +251,7 @@ public class Main extends ApplicationAdapter {
                     }
                 } else {        // GAMBLING TIME
                     chanceSprite.draw(spriteBatch);
-                    chanceSprite.setPosition(20, 20);
+                    chanceSprite.setPosition(0, 50);
                     returnSprite.draw(spriteBatch);
                     returnSprite.setPosition(700, 20);
                     font.draw(fontBatch, "Gambling time!", 300, 50);
@@ -284,45 +284,52 @@ public class Main extends ApplicationAdapter {
     }
 
     public void displayRoll(int r) {
-        switch(r) {
-            case 1:
-                font.draw(fontBatch, "You teleported to", 470, 270);
-                font.draw(fontBatch, "a random spot!", 500, 220);
-                break;
-            case 2:
-                font.draw(fontBatch, "You lost a coin!", 470, 270);
-                break;
-            case 3:
-                font.draw(fontBatch, "You gained 2 coins!", 470, 270);
-                break;
-            case 4:
-                font.draw(fontBatch, "You lost 1 health!", 470, 270);
-                break;
-            case 5:
-                font.draw(fontBatch, "You gained 2 health!", 470, 270);
-                break;
-            case 6:
-                font.draw(fontBatch, "You gained 3 coins!", 470, 270);
-                break;
-            case 7:
-                font.draw(fontBatch, "You can see what's in", 470, 270);
-                font.draw(fontBatch, "the spaces around you!", 465, 220);
-                break;
-            case 8:
-                font.draw(fontBatch, "You got information!", 470, 270);
-                String vExitDirection = game.vExitDirection();
-                font.draw(fontBatch, "I'm willing to bet the", 450, 650);
-                font.draw(fontBatch, "exit is " + vExitDirection + ".", 450, 600);
-                break;
-            case 9:
-                font.draw(fontBatch, "You got information!", 470, 270);
-                String hExitDirection = game.hExitDirection();
-                font.draw(fontBatch, "I'm willing to bet the", 450, 650);
-                font.draw(fontBatch, "exit is " + hExitDirection + ".", 450, 600);
-                break;
-            case 10:
-                font.draw(fontBatch, "You got a bomb!", 470, 500);
-                break;
+        if(game.isBroke()) {
+            font.draw(fontBatch, "Sorry, why don't you", 450, 650);
+            font.draw(fontBatch, "come back once you're", 450, 600);
+            font.draw(fontBatch, "more... financially", 450, 550);
+            font.draw(fontBatch, "secure?", 450, 500);
+        } else {
+            switch(r) {
+                case 1:
+                    font.draw(fontBatch, "You teleported to", 470, 270);
+                    font.draw(fontBatch, "a random spot!", 500, 220);
+                    break;
+                case 2:
+                    font.draw(fontBatch, "You lost a coin!", 470, 270);
+                    break;
+                case 3:
+                    font.draw(fontBatch, "You gained 2 coins!", 470, 270);
+                    break;
+                case 4:
+                    font.draw(fontBatch, "You lost 1 health!", 470, 270);
+                    break;
+                case 5:
+                    font.draw(fontBatch, "You gained 2 health!", 470, 270);
+                    break;
+                case 6:
+                    font.draw(fontBatch, "You gained 3 coins!", 470, 270);
+                    break;
+                case 7:
+                    font.draw(fontBatch, "You can see what's in", 470, 270);
+                    font.draw(fontBatch, "the spaces around you!", 465, 220);
+                    break;
+                case 8:
+                    font.draw(fontBatch, "You got information!", 470, 270);
+                    String vExitDirection = game.vExitDirection();
+                    font.draw(fontBatch, "I'm willing to bet the", 450, 650);
+                    font.draw(fontBatch, "exit is " + vExitDirection + ".", 450, 600);
+                    break;
+                case 9:
+                    font.draw(fontBatch, "You got information!", 470, 270);
+                    String hExitDirection = game.hExitDirection();
+                    font.draw(fontBatch, "I'm willing to bet the", 450, 650);
+                    font.draw(fontBatch, "exit is " + hExitDirection + ".", 450, 600);
+                    break;
+                case 10:
+                    font.draw(fontBatch, "You got a bomb!", 470, 270);
+                    break;
+            }
         }
     }
 }
