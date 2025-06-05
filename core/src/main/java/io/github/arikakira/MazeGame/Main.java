@@ -21,6 +21,8 @@ public class Main extends ApplicationAdapter {
     private Texture chanceTexture;
     private Texture returnTexture;
     private Texture coinTexture;
+    private Texture bombTexture;
+    private Texture monsterTexture;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -32,6 +34,8 @@ public class Main extends ApplicationAdapter {
     private Sprite chanceSprite;
     private Sprite returnSprite;
     private Sprite coinSprite;
+    private Sprite bombSprite;
+    private Sprite monsterSprite;
 
     private FreeTypeFontGenerator fontGenerator;
     private FreeTypeFontParameter fontParameter;
@@ -52,6 +56,8 @@ public class Main extends ApplicationAdapter {
         chanceTexture = new Texture("placeholderChance.png");
         returnTexture = new Texture("returnButton.png");
         coinTexture = new Texture("coin.png");
+        bombTexture = new Texture("bombButton.png");
+        monsterTexture = new Texture("monster.png");
         viewport = new FitViewport(1000, 800);
 
         rArrowSprite = new Sprite(arrowTexture);
@@ -63,11 +69,15 @@ public class Main extends ApplicationAdapter {
         dArrowSprite = new Sprite(arrowTexture);
         dArrowSprite.setSize(200, 100);
         chanceSprite = new Sprite(chanceTexture);
-        chanceSprite.setSize(440, 644);
+        chanceSprite.setSize(411, 600);
         returnSprite = new Sprite(returnTexture);
         returnSprite.setSize(270, 120);
         coinSprite = new Sprite(coinTexture);
         coinSprite.setSize(95, 117);
+        bombSprite = new Sprite(bombTexture);
+        bombSprite.setSize(221, 120);
+        monsterSprite = new Sprite(monsterTexture);
+        monsterSprite.setSize(186, 171);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -175,6 +185,18 @@ public class Main extends ApplicationAdapter {
             }
         }
 
+        if(Gdx.input.getX() < bombSprite.getX() + bombSprite.getWidth() &&
+           Gdx.input.getX() > bombSprite.getX() &&
+           810-Gdx.input.getY() < bombSprite.getY() + bombSprite.getHeight() &&
+           790-Gdx.input.getY() > bombSprite.getY()) {
+            if(Gdx.input.isTouched() && game.hasBomb() && !game.isDead()) {
+                game.useBomb();
+                game.getMaze();
+                game.setHasBomb(false);
+                wait(100);
+            }
+        }
+
         if(game.ranIntoMonster() && !monsterMessageActive) {
             messageEndTime = System.currentTimeMillis() + 2000;
             monsterMessageActive = true;
@@ -201,9 +223,15 @@ public class Main extends ApplicationAdapter {
                     if(game.rightAvail()) {
                         rArrowSprite.draw(spriteBatch);
                         rArrowSprite.setPosition(800, 350);
-                        if(game.seeMazeStatus() && game.rHasCoin()) {
-                            coinSprite.draw(spriteBatch);
-                            coinSprite.setPosition(800, 250);
+                        if(game.seeMazeStatus()) {
+                            if(game.rHasCoin()) {
+                                coinSprite.draw(spriteBatch);
+                                coinSprite.setPosition(800, 250);
+                            }
+                            if(game.rHasMonster()) {
+                                monsterSprite.draw(spriteBatch);
+                                monsterSprite.setPosition(760, 200);
+                            }
                         }
                     }
                     if(game.leftAvail()) {
@@ -211,9 +239,15 @@ public class Main extends ApplicationAdapter {
                         lArrowSprite.setOrigin(lArrowSprite.getWidth()/2f, lArrowSprite.getHeight()/2f);
                         lArrowSprite.setRotation(180);
                         lArrowSprite.setPosition(0, 350);
-                        if(game.seeMazeStatus() && game.lHasCoin()) {
-                            coinSprite.draw(spriteBatch);
-                            coinSprite.setPosition(100, 250);
+                        if(game.seeMazeStatus()) {
+                            if(game.lHasCoin()) {
+                                coinSprite.draw(spriteBatch);
+                                coinSprite.setPosition(100, 250);  
+                            }
+                            if(game.lHasMonster()) {
+                                monsterSprite.draw(spriteBatch);
+                                monsterSprite.setPosition(90, 200);
+                            }
                         }
                     }
                     if(game.upAvail()) {
@@ -221,9 +255,15 @@ public class Main extends ApplicationAdapter {
                         uArrowSprite.setOrigin(uArrowSprite.getWidth()/2f, uArrowSprite.getHeight()/2f);
                         uArrowSprite.setRotation(90);
                         uArrowSprite.setPosition( 400, 650);
-                        if(game.seeMazeStatus() && game.uHasCoin()) {
-                            coinSprite.draw(spriteBatch);
-                            coinSprite.setPosition(550, 600);
+                        if(game.seeMazeStatus()) {
+                            if(game.uHasCoin()) {
+                                coinSprite.draw(spriteBatch);
+                                coinSprite.setPosition(550, 600);
+                            }
+                            if(game.uHasMonster()) {
+                                monsterSprite.draw(spriteBatch);
+                                monsterSprite.setPosition(550, 600);
+                            }
                         }
                     }
                     if(game.downAvail()) {
@@ -231,10 +271,20 @@ public class Main extends ApplicationAdapter {
                         dArrowSprite.setOrigin(dArrowSprite.getWidth()/2f, dArrowSprite.getHeight()/2f);
                         dArrowSprite.setRotation(270);
                         dArrowSprite.setPosition(400, 50);
-                        if(game.seeMazeStatus() && game.dHasCoin()) {
-                            coinSprite.draw(spriteBatch);
-                            coinSprite.setPosition(350, 70);
+                        if(game.seeMazeStatus()) {
+                            if(game.dHasCoin()) {
+                                coinSprite.draw(spriteBatch);
+                                coinSprite.setPosition(350, 70);
+                            }
+                            if(game.dHasMonster()) {
+                                monsterSprite.draw(spriteBatch);
+                                monsterSprite.setPosition(290, 30);
+                            }
                         }
+                    }
+                    if(game.hasBomb()) {
+                        bombSprite.draw(spriteBatch);
+                        bombSprite.setPosition(20, 20);
                     }
                     if(game.ranIntoMonster() && System.currentTimeMillis() < messageEndTime) {      // display monster message
                         font.draw(fontBatch, "You ran into a monster!", 230, Gdx.graphics.getHeight()/2f+20);
@@ -285,10 +335,10 @@ public class Main extends ApplicationAdapter {
 
     public void displayRoll(int r) {
         if(game.isBroke()) {
-            font.draw(fontBatch, "Sorry, why don't you", 450, 650);
-            font.draw(fontBatch, "come back once you're", 450, 600);
-            font.draw(fontBatch, "more... financially", 450, 550);
-            font.draw(fontBatch, "secure?", 450, 500);
+            font.draw(fontBatch, "Sorry, why don't you", 420, 650);
+            font.draw(fontBatch, "come back once you're", 420, 600);
+            font.draw(fontBatch, "more... financially", 420, 550);
+            font.draw(fontBatch, "secure?", 420, 500);
         } else {
             switch(r) {
                 case 1:
@@ -317,17 +367,23 @@ public class Main extends ApplicationAdapter {
                 case 8:
                     font.draw(fontBatch, "You got information!", 470, 270);
                     String vExitDirection = game.vExitDirection();
-                    font.draw(fontBatch, "I'm willing to bet the", 450, 650);
-                    font.draw(fontBatch, "exit is " + vExitDirection + ".", 450, 600);
+                    font.draw(fontBatch, "I'm willing to bet the", 420, 650);
+                    font.draw(fontBatch, "exit is " + vExitDirection + ".", 420, 600);
                     break;
                 case 9:
                     font.draw(fontBatch, "You got information!", 470, 270);
                     String hExitDirection = game.hExitDirection();
-                    font.draw(fontBatch, "I'm willing to bet the", 450, 650);
-                    font.draw(fontBatch, "exit is " + hExitDirection + ".", 450, 600);
+                    font.draw(fontBatch, "I'm willing to bet the", 420, 650);
+                    font.draw(fontBatch, "exit is " + hExitDirection + ".", 420, 600);
                     break;
                 case 10:
                     font.draw(fontBatch, "You got a bomb!", 470, 270);
+                    font.draw(fontBatch, "This destroys anything", 420, 650);
+                    font.draw(fontBatch, "within 2 tiles of you.", 420, 600);
+                    font.draw(fontBatch, "Careful though, the", 420, 550);
+                    font.draw(fontBatch, "explosion will hurt.", 420, 500);
+                    font.draw(fontBatch, "And, I definitely won't", 420, 450);
+                    font.draw(fontBatch, "be around to help.", 420, 400);
                     break;
             }
         }

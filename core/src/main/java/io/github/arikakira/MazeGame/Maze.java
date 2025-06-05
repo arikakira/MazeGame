@@ -14,6 +14,7 @@ public class Maze {
     private boolean ranIntoMonster = false;
     private boolean gotCoin = false;
     private boolean broke = true;
+    private boolean hasBomb = false;
 
     private String[][] maze = 
     {
@@ -28,9 +29,9 @@ public class Maze {
         {"XXX"," o ","   ","   ","   ","XXX","XXX","   ","   ","   ","   ","   ","XXX","   ","XXX"},
         {"XXX","   ","777","XXX","   ","XXX"," o ","   ","XXX",">-<","XXX","   "," o ","   ","XXX"},
         {"XXX",">-<","XXX","XXX"," o ","   ","   ",">-<","XXX","XXX","XXX","XXX",">-<","XXX","XXX"},
-        {"XXX","   "," o ","XXX","   ","XXX","XXX"," o ","XXX",">-<","XXX","   "," o ","777","XXX"},
+        {"XXX","   "," o ","XXX","   ","XXX","XXX"," o ","XXX","XXX","XXX","   "," o ","777","XXX"},
         {"XXX","XXX","   ","XXX","   ","   ","XXX","   ","XXX","777","   "," o ","XXX","XXX","XXX"},
-        {"XXX","777","   ","XXX","XXX","^v^","XXX","777","XXX",">-<","XXX","   "," o ","777","XXX"},
+        {"XXX","777","   ","XXX","XXX","^v^","XXX","777","XXX","XXX","XXX","   "," o ","777","XXX"},
         {"XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX","XXX"}
     };
 
@@ -100,6 +101,22 @@ public class Maze {
         return maze[currentRow+1][currentCol].equals(" o ");
     }
 
+    public boolean rHasMonster() {
+        return maze[currentRow][currentCol+1].equals(">-<");
+    }
+
+    public boolean lHasMonster() {
+        return maze[currentRow][currentCol-1].equals(">-<");
+    }
+    
+    public boolean uHasMonster() {
+        return maze[currentRow-1][currentCol].equals(">-<");
+    }
+
+    public boolean dHasMonster() {
+        return maze[currentRow+1][currentCol].equals(">-<");
+    }
+
     public boolean reachEnd() {
         return (currentRow==endRow && currentCol == endCol);
     }
@@ -110,24 +127,16 @@ public class Maze {
 
     public void move(String input) {
         if(input.equals("right")) {
-            if(rightAvail()) {
-                moveSpace(currentRow, currentCol+1);
-            }
+            if(rightAvail()) moveSpace(currentRow, currentCol+1);
         }
         if(input.equals("left")) {
-            if(leftAvail()) {
-                moveSpace(currentRow, currentCol-1);
-            }
+            if(leftAvail()) moveSpace(currentRow, currentCol-1);
         }
         if(input.equals("up")) {
-            if(upAvail()) {
-                moveSpace(currentRow-1, currentCol);
-            }
+            if(upAvail()) moveSpace(currentRow-1, currentCol);
         }
         if(input.equals("down")) {
-            if(downAvail()) {
-                moveSpace(currentRow+1, currentCol);
-            }
+            if(downAvail()) moveSpace(currentRow+1, currentCol);
         }
     }
 
@@ -198,7 +207,7 @@ public class Maze {
     }
 
     public void randomEvent() {
-        int random = (int) (Math.random() * 2) + 8;
+        int random = (int) (Math.random() * 1) + 7;
         switch(random) {      // teleport to random spot
             case 1:
                 System.out.println("rolled a 1");
@@ -255,6 +264,7 @@ public class Maze {
             case 10:
                 System.out.println("rolled a 10");
                 roll = 10;
+                hasBomb = true;
                 break;
         }
     }
@@ -264,18 +274,38 @@ public class Maze {
     }
 
     public String hExitDirection() {
-        if(currentCol<endCol) {
-            return "right";
-        } else {
-            return "left";
-        }
+        if(currentCol<endCol) return "right";
+        else return "left";
     }
 
     public String vExitDirection() {
-        if(currentRow<endRow) {
-            return "down";
-        } else {
-            return "up";
+        if(currentRow<endRow) return "down";
+        else return "up";
+    }
+
+    public boolean hasBomb() {
+        return hasBomb;
+    }
+
+    public void setHasBomb(boolean bomb) {
+        hasBomb = bomb;
+    }
+
+    public void useBomb() {
+        int lrAmt = 2;
+        int rrAmt = 2;
+        int ucAmt = 2;
+        int dcAmt = 2;
+        if(currentRow<2) lrAmt = 1;
+        if(currentRow>12) rrAmt = 1;
+        if(currentCol<2) ucAmt = 1;
+        if(currentCol>12) dcAmt = 1;
+        for(int r=currentRow-lrAmt; r<=currentRow+rrAmt; r++) {
+            for(int c=currentCol-ucAmt; c<=currentCol+dcAmt; c++) {
+                if(!(r==currentRow && c==currentCol) && maze[r][c]!="^v^") {
+                    maze[r][c] = "   ";
+                }
+            }
         }
     }
 }
