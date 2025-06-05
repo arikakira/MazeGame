@@ -12,6 +12,7 @@ public class Maze {
     private boolean canSeeStatus = false;
     private boolean gameStarted = false;
     private boolean ranIntoMonster = false;
+    private boolean gotCoin = false;
 
     private String[][] maze = 
     {
@@ -137,6 +138,7 @@ public class Maze {
         } else {
             if(maze[r][c].equals(" o ")) {
                 coins++;
+                gotCoin = true;
             }
             if(maze[r][c].equals(">-<")) {
                 health--;
@@ -177,8 +179,16 @@ public class Maze {
         ranIntoMonster = r;
     }
 
+    public boolean gotCoin() {
+        return gotCoin;
+    }
+
+    public void setGotCoin(boolean c) {
+        gotCoin = c;
+    }
+
     public void randomEvent() {
-        int random = (int) (Math.random() * 10) + 1;
+        int random = (int) (Math.random() * 2) + 7;
         switch(random) {      // teleport to random spot
             case 1:
                 System.out.println("rolled a 1");
@@ -241,5 +251,21 @@ public class Maze {
     
     public int getRoll() {
         return roll;
+    }
+
+    public String hExitDirection() {
+        if(currentCol<endCol) {
+            return "right";
+        } else {
+            return "left";
+        }
+    }
+
+    public String vExitDirection() {
+        if(currentRow<endRow) {
+            return "up";
+        } else {
+            return "down";
+        }
     }
 }

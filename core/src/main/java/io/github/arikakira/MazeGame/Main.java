@@ -39,6 +39,9 @@ public class Main extends ApplicationAdapter {
     private SpriteBatch fontBatch;
 
     private int roll = 0;
+    private Long messageEndTime = 0l;
+    private boolean monsterMessageActive = false;
+    private boolean coinMessageActive = false;
 
     Maze game = new Maze(1, 6);
 
@@ -172,9 +175,15 @@ public class Main extends ApplicationAdapter {
             }
         }
 
-        // if(Gdx.input.isTouched() && game.ranIntoMonster() && !game.isDead() && !game.isGamblingTime()) {
-        //     game.setRanIntoMonster(false);
-        // }
+        if(game.ranIntoMonster() && !monsterMessageActive) {
+            messageEndTime = System.currentTimeMillis() + 2000;
+            monsterMessageActive = true;
+        }
+
+        if(game.gotCoin() && !coinMessageActive) {
+            messageEndTime = System.currentTimeMillis() + 1000;
+            coinMessageActive = true;
+        }
     }
     
     public void draw() {
@@ -227,9 +236,18 @@ public class Main extends ApplicationAdapter {
                             coinSprite.setPosition(350, 70);
                         }
                     }
-                    if(game.ranIntoMonster()) {
-                        font.draw(fontBatch, "You ran into a monster!", 230, Gdx.graphics.getHeight()/2f+30);
-                        font.draw(fontBatch,"You lost 1 HP!", 330, Gdx.graphics.getHeight()/2f-7);
+                    if(game.ranIntoMonster() && System.currentTimeMillis() < messageEndTime) {      // display monster message
+                        font.draw(fontBatch, "You ran into a monster!", 230, Gdx.graphics.getHeight()/2f+20);
+                        font.draw(fontBatch,"You lost 1 HP!", 330, Gdx.graphics.getHeight()/2f-17);
+                    } else if(game.ranIntoMonster()) {
+                        game.setRanIntoMonster(false);
+                        monsterMessageActive = false;
+                    }
+                    if(game.gotCoin() && System.currentTimeMillis() < messageEndTime) {      // display coin message
+                        font.draw(fontBatch, "You got a coin!", 310, Gdx.graphics.getHeight()/2f+10);
+                    } else if(game.gotCoin()) {
+                        game.setGotCoin(false);
+                        coinMessageActive = false;
                     }
                 } else {        // GAMBLING TIME
                     chanceSprite.draw(spriteBatch);
@@ -268,33 +286,39 @@ public class Main extends ApplicationAdapter {
     public void displayRoll(int r) {
         switch(r) {
             case 1:
-                font.draw(fontBatch, "You teleported to", 470, 470);
-                font.draw(fontBatch, "a random spot!", 500, 420);
+                font.draw(fontBatch, "You teleported to", 470, 270);
+                font.draw(fontBatch, "a random spot!", 500, 220);
                 break;
             case 2:
-                font.draw(fontBatch, "You lost a coin!", 470, 470);
+                font.draw(fontBatch, "You lost a coin!", 470, 270);
                 break;
             case 3:
-                font.draw(fontBatch, "You gained 2 coins!", 470, 470);
+                font.draw(fontBatch, "You gained 2 coins!", 470, 270);
                 break;
             case 4:
-                font.draw(fontBatch, "You lost 1 health!", 470, 470);
+                font.draw(fontBatch, "You lost 1 health!", 470, 270);
                 break;
             case 5:
-                font.draw(fontBatch, "You gained 2 health!", 470, 470);
+                font.draw(fontBatch, "You gained 2 health!", 470, 270);
                 break;
             case 6:
-                font.draw(fontBatch, "You gained 3 coins!", 470, 470);
+                font.draw(fontBatch, "You gained 3 coins!", 470, 270);
                 break;
             case 7:
-                font.draw(fontBatch, "You can see what's in", 470, 470);
-                font.draw(fontBatch, "the spaces around you!", 465, 420);
+                font.draw(fontBatch, "You can see what's in", 470, 270);
+                font.draw(fontBatch, "the spaces around you!", 465, 220);
                 break;
             case 8:
-                font.draw(fontBatch, "You got information!", 470, 470);
+                font.draw(fontBatch, "You got information!", 470, 270);
+                String vExitDirection = game.vExitDirection();
+                font.draw(fontBatch, "I'm willing to bet the", 450, 650);
+                font.draw(fontBatch, "exit is " + vExitDirection + ".", 450, 600);
                 break;
             case 9:
-                font.draw(fontBatch, "You got information!", 470, 470);
+                font.draw(fontBatch, "You got information!", 470, 270);
+                String hExitDirection = game.hExitDirection();
+                font.draw(fontBatch, "I'm willing to bet the", 450, 650);
+                font.draw(fontBatch, "exit is " + hExitDirection + ".", 450, 600);
                 break;
             case 10:
                 font.draw(fontBatch, "You got a bomb!", 470, 500);
