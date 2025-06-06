@@ -24,6 +24,7 @@ public class Main extends ApplicationAdapter {
     private Texture bombTexture;
     private Texture monsterTexture;
     private Texture slotTexture;
+    private Texture dBoxTexture;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -38,6 +39,7 @@ public class Main extends ApplicationAdapter {
     private Sprite bombSprite;
     private Sprite monsterSprite;
     private Sprite slotSprite;
+    private Sprite dBoxSprite;
 
     private FreeTypeFontGenerator fontGenerator;
     private FreeTypeFontParameter fontParameter;
@@ -55,12 +57,13 @@ public class Main extends ApplicationAdapter {
     public void create() {
         spriteBatch = new SpriteBatch();
         arrowTexture = new Texture("arrow.png");
-        chanceTexture = new Texture("placeholderChance.png");
+        chanceTexture = new Texture("chance.png");
         returnTexture = new Texture("returnButton.png");
         coinTexture = new Texture("coin.png");
         bombTexture = new Texture("bombButton.png");
         monsterTexture = new Texture("monster.png");
         slotTexture = new Texture("slotMachine.png");
+        dBoxTexture = new Texture("dialogueBox.png");
         viewport = new FitViewport(1000, 800);
 
         rArrowSprite = new Sprite(arrowTexture);
@@ -72,7 +75,7 @@ public class Main extends ApplicationAdapter {
         dArrowSprite = new Sprite(arrowTexture);
         dArrowSprite.setSize(200, 100);
         chanceSprite = new Sprite(chanceTexture);
-        chanceSprite.setSize(411, 600);
+        chanceSprite.setSize(407, 599);
         returnSprite = new Sprite(returnTexture);
         returnSprite.setSize(270, 120);
         coinSprite = new Sprite(coinTexture);
@@ -83,6 +86,8 @@ public class Main extends ApplicationAdapter {
         monsterSprite.setSize(186, 171);
         slotSprite = new Sprite(slotTexture);
         slotSprite.setSize(182, 112);
+        dBoxSprite = new Sprite(dBoxTexture);
+        dBoxSprite.setSize(710, 340);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("1942.ttf"));
         fontParameter = new FreeTypeFontParameter();
@@ -325,6 +330,8 @@ public class Main extends ApplicationAdapter {
                     chanceSprite.setPosition(0, 50);
                     returnSprite.draw(spriteBatch);
                     returnSprite.setPosition(700, 20);
+                    dBoxSprite.draw(spriteBatch);
+                    dBoxSprite.setPosition(290, 335);
                     font.draw(fontBatch, "Gambling time!", 300, 50);
                     roll = game.getRoll();
                     displayRoll(roll);
@@ -356,55 +363,92 @@ public class Main extends ApplicationAdapter {
 
     public void displayRoll(int r) {
         if(game.isBroke()) {
-            font.draw(fontBatch, "Sorry, why don't you", 420, 650);
-            font.draw(fontBatch, "come back once you're", 420, 600);
-            font.draw(fontBatch, "more... financially", 420, 550);
-            font.draw(fontBatch, "secure?", 420, 500);
+            font.draw(fontBatch, "Sorry, why don't you", 430, 650);
+            font.draw(fontBatch, "come back once you're", 430, 600);
+            font.draw(fontBatch, "more... financially", 430, 550);
+            font.draw(fontBatch, "secure?", 430, 500);
         } else {
             switch(r) {
                 case 1:
-                    font.draw(fontBatch, "You teleported to", 470, 270);
-                    font.draw(fontBatch, "a random spot!", 500, 220);
+                    font.draw(fontBatch, "You teleported to", 430, 270);
+                    font.draw(fontBatch, "a random spot!", 430, 220);
+
+                    font.draw(fontBatch, "Sorry man, this is", 430, 650);
+                    font.draw(fontBatch, "probably the worst", 430, 600);
+                    font.draw(fontBatch, "thing that could've", 430, 550);
+                    font.draw(fontBatch, "happened to you other", 430, 500);
+                    font.draw(fontBatch, "than dying.", 430, 450);
                     break;
                 case 2:
-                    font.draw(fontBatch, "You lost a coin!", 470, 270);
+                    font.draw(fontBatch, "You lost a coin!", 430, 270);
+
+                    font.draw(fontBatch, "On the bright side,", 430, 650);
+                    font.draw(fontBatch, "think about your", 430, 600);
+                    font.draw(fontBatch, "contribution to the", 430, 550);
+                    font.draw(fontBatch, "economy.", 430, 500);
                     break;
                 case 3:
-                    font.draw(fontBatch, "You gained 2 coins!", 470, 270);
+                    font.draw(fontBatch, "You gained 2 coins!", 430, 270);
+
+                    font.draw(fontBatch, "Planning to save money?", 430, 650);
+                    font.draw(fontBatch, "When you could generate", 430, 600);
+                    font.draw(fontBatch, "more by gambling? How", 430, 550);
+                    font.draw(fontBatch, "preposterous.", 430, 500);
                     break;
                 case 4:
-                    font.draw(fontBatch, "You lost 1 health!", 470, 270);
+                    font.draw(fontBatch, "You lost 1 health!", 430, 270);
+
+                    font.draw(fontBatch, "If you think there are", 430, 650);
+                    font.draw(fontBatch, "health packs around,", 430, 600);
+                    font.draw(fontBatch, "the developer forgot to", 430, 550);
+                    font.draw(fontBatch, "put them in the game.", 430, 500);
                     break;
                 case 5:
-                    font.draw(fontBatch, "You gained 2 health!", 470, 270);
+                    font.draw(fontBatch, "You gained 2 health!", 430, 270);
+
+                    font.draw(fontBatch, "You couldn't get", 430, 650);
+                    font.draw(fontBatch, "healing for such a", 430, 600);
+                    font.draw(fontBatch, "low price anywhere", 430, 550);
+                    font.draw(fontBatch, "else.", 430, 500);
                     break;
                 case 6:
-                    font.draw(fontBatch, "You gained 3 coins!", 470, 270);
+                    font.draw(fontBatch, "You gained 4 coins!", 430, 270);
+
+                    font.draw(fontBatch, "Of course you got this.", 430, 650);
+                    font.draw(fontBatch, "Chance is on your side", 430, 600);
+                    font.draw(fontBatch, "after all.", 430, 550);
                     break;
                 case 7:
-                    font.draw(fontBatch, "You can see what's in", 470, 270);
-                    font.draw(fontBatch, "the spaces around you!", 465, 220);
+                    font.draw(fontBatch, "You can see what's in", 430, 270);
+                    font.draw(fontBatch, "the spaces around you!", 430, 220);
+
+                    font.draw(fontBatch, "Congratulations, you", 430, 650);
+                    font.draw(fontBatch, "got the most useful", 430, 600);
+                    font.draw(fontBatch, "effect! It was all", 430, 550);
+                    font.draw(fontBatch, "worth it, wasn't it?", 430, 500);
+                    font.draw(fontBatch, "Never stop gambling.", 430, 450);
                     break;
                 case 8:
-                    font.draw(fontBatch, "You got information!", 470, 270);
+                    font.draw(fontBatch, "You got information!", 430, 270);
                     String vExitDirection = game.vExitDirection();
-                    font.draw(fontBatch, "I'm willing to bet the", 420, 650);
-                    font.draw(fontBatch, "exit is " + vExitDirection + ".", 420, 600);
+                    font.draw(fontBatch, "I'm willing to bet the", 430, 650);
+                    font.draw(fontBatch, "exit is " + vExitDirection + ".", 430, 600);
                     break;
                 case 9:
-                    font.draw(fontBatch, "You got information!", 470, 270);
+                    font.draw(fontBatch, "You got information!", 430, 270);
                     String hExitDirection = game.hExitDirection();
-                    font.draw(fontBatch, "I'm willing to bet the", 420, 650);
-                    font.draw(fontBatch, "exit is " + hExitDirection + ".", 420, 600);
+                    font.draw(fontBatch, "I'm willing to bet the", 430, 650);
+                    font.draw(fontBatch, "exit is " + hExitDirection + ".", 430, 600);
                     break;
                 case 10:
-                    font.draw(fontBatch, "You got a bomb!", 470, 270);
-                    font.draw(fontBatch, "This destroys anything", 420, 650);
-                    font.draw(fontBatch, "within 2 tiles of you.", 420, 600);
-                    font.draw(fontBatch, "Careful though, the", 420, 550);
-                    font.draw(fontBatch, "explosion will hurt.", 420, 500);
-                    font.draw(fontBatch, "And, I definitely won't", 420, 450);
-                    font.draw(fontBatch, "be around to help.", 420, 400);
+                    font.draw(fontBatch, "You got a bomb!", 430, 270);
+
+                    font.draw(fontBatch, "This destroys anything", 430, 650);
+                    font.draw(fontBatch, "within 2 tiles of you.", 430, 600);
+                    font.draw(fontBatch, "Careful though, the", 430, 550);
+                    font.draw(fontBatch, "explosion will hurt.", 430, 500);
+                    font.draw(fontBatch, "And, I definitely won't", 430, 450);
+                    font.draw(fontBatch, "be around to help.", 430, 400);
                     break;
             }
         }

@@ -6,7 +6,7 @@ public class Maze {
     private int endRow = 13;
     private int endCol = 5;
     private int coins = 0;
-    private int health = 6;
+    private int health = 5;
     private int roll = 0;
     private boolean gamblingTime = false;
     private boolean canSeeStatus = false;
@@ -223,7 +223,10 @@ public class Maze {
     }
 
     public void randomEvent() {
-        int random = (int) (Math.random() * 10) + 1;
+        int random = (int) (Math.random() * 1) + 10;
+        while((canSeeStatus && random==7) || (hasBomb && random==10)) {
+            random = (int) (Math.random() * 10) + 1;
+        }
         switch(random) {      // teleport to random spot
             case 1:
                 System.out.println("rolled a 1");
@@ -246,8 +249,13 @@ public class Maze {
                 break;
             case 3:
                 System.out.println("rolled a 3 but its a 7");
-                roll = 7;
-                canSeeStatus = true;
+                if(!canSeeStatus) {
+                    roll = 7;
+                    canSeeStatus = true;
+                } else {
+                    roll = 3;
+                    coins = coins + 2;
+                }
                 break;
             case 4:
                 System.out.println("rolled a 4");
@@ -262,7 +270,7 @@ public class Maze {
             case 6:
                 System.out.println("rolled a 6");
                 roll = 6;
-                coins = coins + 3;
+                coins = coins + 4;
                 break;
             case 7:
                 System.out.println("rolled a 7");
@@ -318,7 +326,7 @@ public class Maze {
         if(currentCol>12) dcAmt = 1;
         for(int r=currentRow-lrAmt; r<=currentRow+rrAmt; r++) {
             for(int c=currentCol-ucAmt; c<=currentCol+dcAmt; c++) {
-                if(!(r==currentRow && c==currentCol) && maze[r][c]!="^v^") {
+                if(!(r==currentRow && c==currentCol) && maze[r][c]!="^v^" && r!=0 && r!=14 && c!=0 && c!=14) {
                     maze[r][c] = "   ";
                 }
             }
