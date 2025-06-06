@@ -141,7 +141,6 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getY() < rArrowSprite.getY() + rArrowSprite.getHeight() &&
            Gdx.input.getY() > rArrowSprite.getY()) {
             if(Gdx.input.isTouched() && game.rightAvail() && !game.isGamblingTime() && !game.isDead()) {
-                game.getMaze();
                 game.move("right");
                 game.getMaze();
                 wait(100);
@@ -153,7 +152,6 @@ public class Main extends ApplicationAdapter {
            Gdx.input.getY() < lArrowSprite.getY() + lArrowSprite.getHeight() &&
            Gdx.input.getY() > lArrowSprite.getY()) {
             if(Gdx.input.isTouched() && game.leftAvail() && !game.isGamblingTime() && !game.isDead()) {
-                game.getMaze();
                 game.move("left");
                 game.getMaze();
                 wait(100);
@@ -165,7 +163,6 @@ public class Main extends ApplicationAdapter {
            700-Gdx.input.getY() < uArrowSprite.getY() + uArrowSprite.getHeight() &&
            850-Gdx.input.getY() > uArrowSprite.getY()) {
             if(Gdx.input.isTouched() && game.upAvail() && !game.isGamblingTime() && !game.isDead()) {
-                game.getMaze();
                 game.move("up");
                 game.getMaze();
                 wait(100);
@@ -177,7 +174,6 @@ public class Main extends ApplicationAdapter {
            750-Gdx.input.getY() < dArrowSprite.getY() + dArrowSprite.getHeight() &&
            850-Gdx.input.getY() > dArrowSprite.getY()) {
             if(Gdx.input.isTouched() && game.downAvail() && !game.isGamblingTime() && !game.isDead()) {
-                game.getMaze();
                 game.move("down");
                 game.getMaze();
                 wait(100);
@@ -189,7 +185,6 @@ public class Main extends ApplicationAdapter {
            810-Gdx.input.getY() < returnSprite.getY() + returnSprite.getHeight() &&
            790-Gdx.input.getY() > returnSprite.getY()) {
             if(Gdx.input.isTouched() && game.isGamblingTime() && !game.isDead()) {
-                game.getMaze();
                 game.setGamblingTime(false);
                 wait(100);
             }
