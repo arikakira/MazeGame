@@ -223,7 +223,7 @@ public class Maze {
     }
 
     public void randomEvent() {
-        int random = (int) (Math.random() * 1) + 10;
+        int random = (int) (Math.random() * 10) + 1;
         while((canSeeStatus && random==7) || (hasBomb && random==10)) {
             random = (int) (Math.random() * 10) + 1;
         }
