@@ -316,6 +316,7 @@ public class Maze {
     }
 
     public void useBomb() {
+        health--;
         int lrAmt = 2;
         int rrAmt = 2;
         int ucAmt = 2;
